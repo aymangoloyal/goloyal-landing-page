@@ -1,0 +1,113 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: hsl(0, 0%, 100%);
+  --foreground: hsl(215, 25%, 7.8431%);
+  --card: hsl(180, 6.6667%, 97.0588%);
+  --card-foreground: hsl(215, 25%, 7.8431%);
+  --popover: hsl(0, 0%, 100%);
+  --popover-foreground: hsl(215, 25%, 7.8431%);
+  --primary: hsl(214, 88%, 57%);
+  --primary-foreground: hsl(0, 0%, 100%);
+  --secondary: hsl(215, 25%, 7.8431%);
+  --secondary-foreground: hsl(0, 0%, 100%);
+  --muted: hsl(240, 1.9608%, 90%);
+  --muted-foreground: hsl(215, 25%, 7.8431%);
+  --accent: hsl(211, 51%, 92%);
+  --accent-foreground: hsl(214, 88%, 57%);
+  --destructive: hsl(0, 90%, 54%);
+  --destructive-foreground: hsl(0, 0%, 100%);
+  --border: hsl(201, 30%, 90%);
+  --input: hsl(200, 23%, 97%);
+  --ring: hsl(214, 88%, 57%);
+  --chart-1: hsl(214, 88%, 57%);
+  --chart-2: hsl(159, 100%, 36%);
+  --chart-3: hsl(42, 92%, 56%);
+  --chart-4: hsl(147, 78%, 42%);
+  --chart-5: hsl(341, 75%, 51%);
+  --sidebar: hsl(180, 6.6667%, 97.0588%);
+  --sidebar-foreground: hsl(215, 25%, 7.8431%);
+  --sidebar-primary: hsl(214, 88%, 57%);
+  --sidebar-primary-foreground: hsl(0, 0%, 100%);
+  --sidebar-accent: hsl(211, 51%, 92%);
+  --sidebar-accent-foreground: hsl(214, 88%, 57%);
+  --sidebar-border: hsl(205, 25%, 90%);
+  --sidebar-ring: hsl(214, 88%, 57%);
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-serif: Georgia, serif;
+  --font-mono: Menlo, monospace;
+  --radius: 0.5rem;
+  --shadow-2xs: 0px 1px 2px 0px hsl(214, 88%, 57%, 0.05);
+  --shadow-xs: 0px 1px 2px 0px hsl(214, 88%, 57%, 0.05);
+  --shadow-sm: 0px 1px 2px 0px hsl(214, 88%, 57%, 0.05), 0px 1px 2px -1px hsl(214, 88%, 57%, 0.05);
+  --shadow: 0px 1px 3px 0px hsl(214, 88%, 57%, 0.1), 0px 1px 2px -1px hsl(214, 88%, 57%, 0.1);
+  --shadow-md: 0px 4px 6px -1px hsl(214, 88%, 57%, 0.1), 0px 2px 4px -2px hsl(214, 88%, 57%, 0.1);
+  --shadow-lg: 0px 10px 15px -3px hsl(214, 88%, 57%, 0.1), 0px 4px 6px -4px hsl(214, 88%, 57%, 0.1);
+  --shadow-xl: 0px 20px 25px -5px hsl(214, 88%, 57%, 0.1), 0px 8px 10px -6px hsl(214, 88%, 57%, 0.1);
+  --shadow-2xl: 0px 25px 50px -12px hsl(214, 88%, 57%, 0.25);
+  --tracking-normal: 0em;
+  --spacing: 0.25rem;
+  
+  /* Custom GoLoyal Brand Colors */
+  --primary-blue: hsl(214, 88%, 57%);
+  --primary-cyan: hsl(189, 84%, 44%);
+  --accent-cyan: hsl(189, 100%, 50%);
+  --dark-navy: hsl(215, 25%, 18%);
+  --light-gray: hsl(210, 40%, 98%);
+}
+
+.dark {
+  --background: hsl(0, 0%, 0%);
+  --foreground: hsl(200, 6.6667%, 91.1765%);
+  --card: hsl(228, 9.8039%, 10%);
+  --card-foreground: hsl(0, 0%, 85.0980%);
+  --popover: hsl(0, 0%, 0%);
+  --popover-foreground: hsl(200, 6.6667%, 91.1765%);
+  --primary: hsl(214, 88%, 57%);
+  --primary-foreground: hsl(0, 0%, 100%);
+  --secondary: hsl(195, 15%, 95%);
+  --secondary-foreground: hsl(215, 25%, 7.8431%);
+  --muted: hsl(0, 0%, 9.4118%);
+  --muted-foreground: hsl(210, 3.3898%, 46.2745%);
+  --accent: hsl(205, 70%, 8%);
+  --accent-foreground: hsl(214, 88%, 57%);
+  --destructive: hsl(0, 90%, 54%);
+  --destructive-foreground: hsl(0, 0%, 100%);
+  --border: hsl(210, 5.2632%, 14.9020%);
+  --input: hsl(207, 27%, 18%);
+  --ring: hsl(214, 88%, 57%);
+  --chart-1: hsl(214, 88%, 57%);
+  --chart-2: hsl(159, 100%, 36%);
+  --chart-3: hsl(42, 92%, 56%);
+  --chart-4: hsl(147, 78%, 42%);
+  --chart-5: hsl(341, 75%, 51%);
+  --sidebar: hsl(228, 9.8039%, 10%);
+  --sidebar-foreground: hsl(0, 0%, 85.0980%);
+  --sidebar-primary: hsl(214, 88%, 57%);
+  --sidebar-primary-foreground: hsl(0, 0%, 100%);
+  --sidebar-accent: hsl(205, 70%, 8%);
+  --sidebar-accent-foreground: hsl(214, 88%, 57%);
+  --sidebar-border: hsl(205, 15%, 26%);
+  --sidebar-ring: hsl(214, 88%, 57%);
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-serif: Georgia, serif;
+  --font-mono: Menlo, monospace;
+  --radius: 0.5rem;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply font-sans antialiased bg-background text-foreground;
+  }
+  
+  html {
+    scroll-behavior: smooth;
+  }
+}
