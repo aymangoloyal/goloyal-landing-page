@@ -16,7 +16,7 @@ NC='\033[0m' # No Color
 APP_NAME="goloyalio"
 ENVIRONMENT="${1:-prod}"
 LOCATION="${2:-eastus}"
-RESOURCE_GROUP_NAME="${APP_NAME}-${ENVIRONMENT}-${LOCATION}-rg"
+RESOURCE_GROUP_NAME="${APP_NAME}-${ENVIRONMENT}-rg"
 
 echo -e "${BLUE}🚀 Setting up Azure resources for GoLoyal${NC}"
 echo -e "${BLUE}Application: ${APP_NAME}${NC}"

@@ -1,5 +1,5 @@
 @description('The name of the application')
-param appName string = 'goloyal'
+param appName string = 'goloyalio'
 
 @description('The Azure region for all resources')
 param location string = resourceGroup().location
@@ -11,7 +11,7 @@ param environment string = 'prod'
 param containerImage string = ''
 
 @description('Database administrator login')
-param dbAdminLogin string = 'goloyal_admin'
+param dbAdminLogin string = 'goloyalio_admin'
 
 @description('Database administrator password')
 @secure()
@@ -30,6 +30,8 @@ var tags = {
   environment: environment
   managedBy: 'bicep'
 }
+var acrNameBase = '${replace(resourcePrefix, '-', '')}acr'
+var acrName = length(acrNameBase) < 5 ? '${acrNameBase}00000' : acrNameBase
 
 // Log Analytics Workspace for Container Apps
 resource logAnalytics 'Microsoft.OperationalInsights/workspaces@2022-10-01' = {
@@ -159,7 +161,7 @@ resource postgresServer 'Microsoft.DBforPostgreSQL/flexibleServers@2023-03-01-pr
 // PostgreSQL Database
 resource postgresDatabase 'Microsoft.DBforPostgreSQL/flexibleServers/databases@2023-03-01-preview' = {
   parent: postgresServer
-  name: 'goloyal'
+  name: 'goloyalio'
   properties: {
     charset: 'utf8'
     collation: 'en_US.utf8'
@@ -200,14 +202,14 @@ resource containerApp 'Microsoft.App/containerApps@2023-05-01' = {
         }
         {
           name: 'database-url'
-          value: 'postgresql://${dbAdminLogin}:${dbAdminPassword}@${postgresServer.properties.fullyQualifiedDomainName}:5432/goloyal?sslmode=require'
+          value: 'postgresql://${dbAdminLogin}:${dbAdminPassword}@${postgresServer.properties.fullyQualifiedDomainName}:5432/goloyalio?sslmode=require'
         }
       ]
     }
     template: {
       containers: [
         {
-          name: 'goloyal-app'
+          name: 'goloyalio-app'
           image: !empty(containerImage) ? containerImage : 'mcr.microsoft.com/azuredocs/containerapps-helloworld:latest'
           resources: {
             cpu: json('0.5')

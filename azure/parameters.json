@@ -3,13 +3,13 @@
   "contentVersion": "1.0.0.0",
   "parameters": {
     "appName": {
-      "value": "goloyal"
+      "value": "goloyalio"
     },
     "environment": {
       "value": "prod"
     },
     "dbAdminLogin": {
-      "value": "goloyal_admin"
+      "value": "goloyalio_admin"
     },
     "dbAdminPassword": {
       "value": "YOUR_SECURE_PASSWORD_HERE"
