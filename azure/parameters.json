@@ -1,0 +1,24 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "appName": {
+      "value": "goloyal"
+    },
+    "environment": {
+      "value": "prod"
+    },
+    "dbAdminLogin": {
+      "value": "goloyal_admin"
+    },
+    "dbAdminPassword": {
+      "value": "YOUR_SECURE_PASSWORD_HERE"
+    },
+    "dbSkuName": {
+      "value": "Standard_B1ms"
+    },
+    "dbTier": {
+      "value": "Burstable"
+    }
+  }
+}

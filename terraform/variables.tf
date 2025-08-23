@@ -9,16 +9,16 @@ variable "region" {
   default     = "us-central1"
 }
 
-variable "domain_name" {
-  description = "Custom domain name for the application (optional)"
-  type        = string
-  default     = ""
-}
-
 variable "environment" {
   description = "Environment (dev, staging, prod)"
   type        = string
   default     = "prod"
+}
+
+variable "domain_name" {
+  description = "Custom domain name for the application (optional)"
+  type        = string
+  default     = ""
 }
 
 variable "min_instances" {

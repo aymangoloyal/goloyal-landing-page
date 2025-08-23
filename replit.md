@@ -11,6 +11,14 @@ This is a full-stack web application built with React/TypeScript frontend and Ex
 - Configured production-ready security and networking
 - Added deployment documentation and setup guides
 
+**August 23, 2025**: Added multi-cloud deployment support with Azure integration
+- Created Azure infrastructure templates using Bicep for Container Apps and PostgreSQL
+- Built comprehensive multi-cloud GitHub Actions workflow supporting Azure and GCP
+- Added automated setup scripts for both cloud providers
+- Implemented environment-specific deployments (dev, staging, prod)
+- Created detailed multi-cloud deployment documentation with cost comparisons
+- Added manual workflow dispatch for flexible deployment targeting
+
 # User Preferences
 
 Preferred communication style: Simple, everyday language.
