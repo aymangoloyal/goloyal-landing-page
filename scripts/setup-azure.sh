@@ -13,7 +13,7 @@ BLUE='\033[0;34m'
 NC='\033[0m' # No Color
 
 # Configuration
-APP_NAME="goloyal"
+APP_NAME="goloyalio"
 ENVIRONMENT="${1:-prod}"
 LOCATION="${2:-eastus}"
 RESOURCE_GROUP_NAME="${APP_NAME}-${ENVIRONMENT}-${LOCATION}-rg"
