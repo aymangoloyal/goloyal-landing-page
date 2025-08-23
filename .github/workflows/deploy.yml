@@ -18,8 +18,8 @@ on:
         - prod
 
 env:
-  APP_NAME: goloyal
-  REGISTRY_NAME: goloyal-registry
+  APP_NAME: goloyalio
+  REGISTRY_NAME: goloyalio-registry
 
 jobs:
   test:
