@@ -60,9 +60,11 @@ jobs:
 
       - name: Set environment variables
         run: |
+          UNIQUE_SUFFIX=$(openssl rand -hex 3)
           echo "ENVIRONMENT=${{ github.event.inputs.environment || 'prod' }}" >> $GITHUB_ENV
+          echo "UNIQUE_SUFFIX=$UNIQUE_SUFFIX" >> $GITHUB_ENV
           echo "RESOURCE_GROUP_NAME=${{ env.APP_NAME }}-${{ github.event.inputs.environment || 'prod' }}-rg" >> $GITHUB_ENV
-          echo "CONTAINER_REGISTRY_NAME=${{ env.APP_NAME }}${{ github.event.inputs.environment || 'prod' }}acr" >> $GITHUB_ENV
+          echo "CONTAINER_REGISTRY_NAME=${{ env.APP_NAME }}${{ github.event.inputs.environment || 'prod' }}${UNIQUE_SUFFIX}acr" >> $GITHUB_ENV
 
       - name: Azure Login
         uses: azure/login@v1
@@ -84,7 +86,8 @@ jobs:
               appName=${{ env.APP_NAME }} \
               environment=${{ env.ENVIRONMENT }} \
               dbAdminPassword=${{ secrets.AZURE_DB_PASSWORD }} \
-              location="${{ vars.AZURE_LOCATION || 'East US' }}"
+              location="${{ vars.AZURE_LOCATION || 'East US' }}" \
+              uniqueSuffix=${UNIQUE_SUFFIX}
 
       - name: Get ACR Login Server
         id: acr-login
