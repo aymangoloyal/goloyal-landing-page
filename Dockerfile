@@ -5,7 +5,7 @@ FROM node:20-alpine AS base
 FROM base AS deps
 WORKDIR /app
 COPY package.json package-lock.json ./
-RUN npm ci --only=production
+RUN npm ci
 
 # Build application (frontend and backend)
 FROM base AS build
@@ -13,6 +13,7 @@ WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm ci
 COPY . .
+# Compile TypeScript & fix aliases
 RUN npm run build
 
 # Production image
@@ -26,6 +27,7 @@ RUN adduser --system --uid 1001 nodejs
 # Copy built application
 COPY --from=deps --chown=nodejs:nodejs /app/node_modules ./node_modules
 COPY --from=build --chown=nodejs:nodejs /app/dist ./dist
+COPY --from=build --chown=nodejs:nodejs /app/shared ./shared
 COPY --chown=nodejs:nodejs package.json ./
 
 USER nodejs

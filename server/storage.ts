@@ -1,5 +1,5 @@
-import { type User, type InsertUser, type DemoRequest, type InsertDemoRequest } from "@shared/schema";
 import { randomUUID } from "crypto";
+import { type DemoRequest, type InsertDemoRequest, type InsertUser, type User } from "../shared/schema";
 
 export interface IStorage {
   getUser(id: string): Promise<User | undefined>;
@@ -39,10 +39,10 @@ export class MemStorage implements IStorage {
   async createDemoRequest(insertDemoRequest: InsertDemoRequest): Promise<DemoRequest> {
     const id = randomUUID();
     const createdAt = new Date();
-    const demoRequest: DemoRequest = { 
-      ...insertDemoRequest, 
-      id, 
-      createdAt 
+    const demoRequest: DemoRequest = {
+      ...insertDemoRequest,
+      id,
+      createdAt
     };
     this.demoRequests.set(id, demoRequest);
     return demoRequest;

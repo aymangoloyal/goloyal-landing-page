@@ -1,15 +1,29 @@
+# Multi-Cloud Terraform Configuration Example
 # Copy this file to terraform.tfvars and fill in your values
 
-# Required variables
-project_id = "your-gcp-project-id"
-region     = "us-central1"
+# Required: Choose cloud provider
+cloud_provider = "azure"  # or "gcp"
 
-# Optional variables
-# domain_name    = "yourdomain.com"
-# environment    = "prod"
-# min_instances  = 0
-# max_instances  = 10
-# cpu_limit      = "1000m"
-# memory_limit   = "1Gi"
-# database_tier  = "db-f1-micro"
-# database_disk_size = 10
+# Required: Application settings
+app_name    = "goloyal"
+environment = "prod"
+
+# Required: Database password
+db_admin_password = "your-secure-password-here"
+
+# Azure-specific settings (only needed if cloud_provider = "azure")
+azure_location            = "East US"
+azure_resource_group_name = ""  # Leave empty to auto-generate
+
+# GCP-specific settings (only needed if cloud_provider = "gcp")
+gcp_project_id = "your-gcp-project-id"
+gcp_region     = "us-central1"
+
+# Optional: Container image (leave empty for default)
+container_image = ""
+
+# Optional: Scaling settings
+min_instances = 0
+max_instances = 10
+cpu_limit     = "1000m"
+memory_limit  = "2Gi"

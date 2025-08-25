@@ -1,4 +1,4 @@
-name: Azure Deployment
+name: Azure Terraform Deployment
 
 on:
   push:
@@ -18,8 +18,9 @@ on:
         - prod
 
 env:
-  APP_NAME: goloyalio
-  REGISTRY_NAME: goloyalio-registry
+  APP_NAME: goloyal
+  TF_VAR_app_name: goloyal
+  TF_VAR_cloud_provider: azure
 
 jobs:
   test:
@@ -46,28 +47,37 @@ jobs:
       - name: Build application
         run: npm run build
 
-  deploy-azure:
+  deploy:
     needs: test
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
     environment:
       name: azure-${{ github.event.inputs.environment || 'prod' }}
+    
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
       - name: Set environment variables
         run: |
+          UNIQUE_SUFFIX=$(openssl rand -hex 3)
           echo "ENVIRONMENT=${{ github.event.inputs.environment || 'prod' }}" >> $GITHUB_ENV
+          echo "UNIQUE_SUFFIX=$UNIQUE_SUFFIX" >> $GITHUB_ENV
           echo "RESOURCE_GROUP_NAME=${{ env.APP_NAME }}-${{ github.event.inputs.environment || 'prod' }}-rg" >> $GITHUB_ENV
-          echo "CONTAINER_REGISTRY_NAME=${{ env.APP_NAME }}${{ github.event.inputs.environment || 'prod' }}acr" >> $GITHUB_ENV
+          echo "CONTAINER_REGISTRY_NAME=${{ env.APP_NAME }}${{ github.event.inputs.environment || 'prod' }}${UNIQUE_SUFFIX}acr" >> $GITHUB_ENV
 
       - name: Azure Login
         uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-      - name: Create Resource Group
+      # Terraform Setup
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.5.0
+
+      - name: Set Environment Variables
         run: |
           az group create \
             --name ${{ env.RESOURCE_GROUP_NAME }} \
@@ -82,19 +92,24 @@ jobs:
               appName=${{ env.APP_NAME }} \
               environment=${{ env.ENVIRONMENT }} \
               dbAdminPassword=${{ secrets.AZURE_DB_PASSWORD }} \
-              location="${{ vars.AZURE_LOCATION || 'East US' }}"
+              location="${{ vars.AZURE_LOCATION || 'East US' }}" \
+              uniqueSuffix=${UNIQUE_SUFFIX}
 
       - name: Get ACR Login Server
         id: acr-login
         run: |
-          ACR_LOGIN_SERVER=$(az acr show --name ${{ env.CONTAINER_REGISTRY_NAME }} --resource-group ${{ env.RESOURCE_GROUP_NAME }} --query "loginServer" -o tsv)
-          echo "login-server=$ACR_LOGIN_SERVER" >> $GITHUB_OUTPUT
+          REGISTRY_NAME=$(echo '${{ env.APP_NAME }}${{ env.ENVIRONMENT }}acr' | tr -d '-')
+          az acr login --name $REGISTRY_NAME
 
       - name: Build and Push Docker Image
         run: |
+          # Login to ACR
           az acr login --name ${{ env.CONTAINER_REGISTRY_NAME }}
+          
+          # Build and push image
           docker build -t ${{ steps.acr-login.outputs.login-server }}/${{ env.APP_NAME }}:${{ github.sha }} .
           docker build -t ${{ steps.acr-login.outputs.login-server }}/${{ env.APP_NAME }}:latest .
+          
           docker push ${{ steps.acr-login.outputs.login-server }}/${{ env.APP_NAME }}:${{ github.sha }}
           docker push ${{ steps.acr-login.outputs.login-server }}/${{ env.APP_NAME }}:latest
 
@@ -114,17 +129,18 @@ jobs:
           echo "🚀 Azure deployment complete! Application URL: https://$APP_URL"
 
   deployment-summary:
-    needs: deploy-azure
+    needs: [deploy-azure]
     runs-on: ubuntu-latest
-    if: always() && needs.deploy-azure.result == 'success'
+    if: always() && (needs.deploy-azure.result == 'success')
+
     steps:
       - name: Deployment Summary
         run: |
-          echo "## 🚀 Deployment Summary" >> $GITHUB_STEP_SUMMARY
+          echo "## 🚀 Azure Deployment Complete!" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "| Cloud Provider | Status | Environment |" >> $GITHUB_STEP_SUMMARY
           echo "|---|---|---|" >> $GITHUB_STEP_SUMMARY
-          echo "| Azure | ${{ needs.deploy-azure.result == 'success' && '✅ Success' || '❌ Failed' }} | ${{ github.event.inputs.environment || 'prod' }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Azure | ${{ needs.deploy-azure.result == 'success' && '✅ Success' || needs.deploy-azure.result == 'skipped' && '⏭️ Skipped' || '❌ Failed' }} | ${{ github.event.inputs.environment || 'prod' }} |" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "**Commit:** ${{ github.sha }}" >> $GITHUB_STEP_SUMMARY
           echo "**Triggered by:** ${{ github.actor }}" >> $GITHUB_STEP_SUMMARY

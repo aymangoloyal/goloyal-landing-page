@@ -11,13 +11,19 @@ This is a full-stack web application built with React/TypeScript frontend and Ex
 - Configured production-ready security and networking
 - Added deployment documentation and setup guides
 
-**August 23, 2025**: Added multi-cloud deployment support with Azure integration
-- Created Azure infrastructure templates using Bicep for Container Apps and PostgreSQL
-- Built comprehensive multi-cloud GitHub Actions workflow supporting Azure and GCP
-- Added automated setup scripts for both cloud providers
+**August 23, 2025**: Added comprehensive Terraform-based multi-cloud deployment
+- Replaced Bicep with Terraform for unified infrastructure management across Azure and GCP
+- Created modular Terraform configuration supporting both cloud providers
+- Built unified GitHub Actions workflow with cloud provider selection
 - Implemented environment-specific deployments (dev, staging, prod)
-- Created detailed multi-cloud deployment documentation with cost comparisons
-- Added manual workflow dispatch for flexible deployment targeting
+- Updated logos with dark/light theme support
+- Streamlined deployment process with single Terraform codebase
+
+**August 24, 2025**: Refined deployment strategy and documentation
+- Limited GitHub Actions workflow to Azure-only deployment for CI/CD automation
+- Created comprehensive Terraform deployment guide covering both Azure and GCP manual deployments
+- Added detailed step-by-step instructions for local Terraform operations
+- Documented troubleshooting, security best practices, and cost optimization strategies
 
 # User Preferences
 
