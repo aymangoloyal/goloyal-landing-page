@@ -1,2 +1,7 @@
-# This file is now replaced by providers.tf, azure.tf, and gcp.tf
-# Remove this file or keep it empty as providers are now defined in providers.tf
+# GoLoyal Terraform Configuration
+# This file is now replaced by providers.tf and azure.tf
+
+# The main infrastructure is defined in azure.tf
+# Provider configuration is in providers.tf
+# Variables are defined in variables.tf
+# Outputs are defined in outputs.tf
