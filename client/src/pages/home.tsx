@@ -553,7 +553,7 @@ export default function Home() {
                     <Users className="w-6 h-6 text-white" />
                   </div>
                   <div>
-                    <p className="font-semibold text-dark-navy">Sarah Martinez</p>
+                    <p className="font-semibold text-dark-navy">Dina Martinez</p>
                     <p className="text-sm text-gray-500">Brew & Bean Coffee</p>
                   </div>
                 </div>
